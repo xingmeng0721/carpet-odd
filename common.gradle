@@ -1,0 +1,120 @@
+final int mcVersion = project.mcVersion
+final boolean unobfuscated = mcVersion >= 26_00_00
+
+apply plugin: unobfuscated ? 'net.fabricmc.fabric-loom' : 'net.fabricmc.fabric-loom-remap'
+apply plugin: 'com.replaymod.preprocess'
+
+repositories {
+	maven { url = 'https://maven.fabricmc.net/' }
+	maven { name = 'Masa'; url = 'https://masa.dy.fi/maven' }
+	maven { name = 'ParchmentMC'; url = 'https://maven.parchmentmc.org' }
+	maven { url = 'https://jitpack.io' }
+	mavenCentral()
+}
+
+// https://github.com/FabricMC/fabric-loader/issues/783
+configurations {
+	modRuntimeOnly.exclude group: 'net.fabricmc', module: 'fabric-loader'
+}
+
+dependencies {
+	def processDependency = { dep ->
+		if (dep instanceof ModuleDependency && !(dep.group == 'net.fabricmc' && dep.name == 'fabric-loader')) {
+			dep.exclude group: 'net.fabricmc', module: 'fabric-loader'
+			dep.exclude group: 'com.github.astei', module: 'lazydfu'
+			dep.exclude group: 'com.github.2No2Name', module: 'McTester'
+		}
+		return dep
+	}
+	def autoImpl = { Object... args -> processDependency(unobfuscated ? implementation(*args) : modImplementation(*args)) }
+
+	// Minecraft
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	if (!unobfuscated) {
+		mappings loom.layered() {
+			officialMojangMappings()
+			parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_version}@zip")
+		}
+	}
+
+	// MixinExtras
+	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.0")))
+
+	// Fabric Loader + API
+	autoImpl "net.fabricmc:fabric-loader:${project.loader_version}"
+	autoImpl "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// Carpet
+	autoImpl("carpet:fabric-carpet:${project.carpet_core_version}") {
+		exclude group: "net.fabricmc", module: "fabric-api"
+	}
+
+	// tiny-mappings-parser (only for obfuscated versions)
+	if (!unobfuscated) {
+		include(autoImpl("net.fabricmc:tiny-mappings-parser:0.3.0+build.17"))
+	}
+}
+
+String MOD_ID = project.mod_id
+String MIXIN_CONFIG_PATH = "${MOD_ID}.mixins.json"
+
+JavaVersion JAVA_COMPATIBILITY = unobfuscated ? JavaVersion.VERSION_25 : JavaVersion.VERSION_21
+
+loom {
+	def commonVmArgs = ['-Dmixin.debug.export=true']
+	runConfigs.configureEach {
+		ideConfigGenerated = true
+		runDir '../../run'
+		vmArgs commonVmArgs
+	}
+}
+
+group = project.maven_group
+base.archivesName = project.archives_base_name
+version = "v${project.mod_version}-mc${project.minecraft_version}"
+
+processResources {
+	inputs.property "id", project.mod_id
+	inputs.property "name", project.mod_name
+	inputs.property "version", "${project.mod_version}"
+	inputs.property "carpet_dependency", project.carpet_dependency
+	inputs.property "minecraft_dependency", project.minecraft_dependency
+
+	inputs.property "loader_version", project.loader_version
+
+	filesMatching("fabric.mod.json") {
+		expand [
+			"id": project.mod_id,
+			"name": project.mod_name,
+			"version": "${project.mod_version}",
+			"loader_version": project.loader_version,
+			"carpet_dependency": project.carpet_dependency,
+			"minecraft_dependency": project.minecraft_dependency,
+		]
+	}
+
+	filesMatching(MIXIN_CONFIG_PATH) {
+		filter { s -> s.replace('{{COMPATIBILITY_LEVEL}}', "JAVA_${JAVA_COMPATIBILITY.ordinal() + 1}") }
+	}
+
+	filesMatching("pack.mcmeta") {
+		filter { s -> s.replace('{{PACK_FORMAT}}', project.pack_format) }
+	}
+}
+
+int javaMajorVersion = JAVA_COMPATIBILITY.ordinal() + 1
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = "UTF-8"
+	options.release = javaMajorVersion
+}
+
+java {
+	sourceCompatibility = JAVA_COMPATIBILITY
+	targetCompatibility = JAVA_COMPATIBILITY
+	withSourcesJar()
+}
+
+jar {
+	from(rootProject.file('LICENSE')) { rename { "${it}" } }
+}

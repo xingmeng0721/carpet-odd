@@ -1,0 +1,15 @@
+{
+  "carpet.category.odd": "Odd",
+
+  "carpet.rule.autoDrop.name": "Fake Player Auto Drop Pure Shulker Boxes",
+  "carpet.rule.autoDrop.desc": "Enables the '/player <name> autodrop' command and allows triggering it by left-clicking a fake player with a cactus. Scans the fake player's inventory and throws out any Shulker Boxes that contain only a single type of item.",
+
+  "carpet.rule.bonemealSporeBlossom.name": "Bone Meal Spore Blossoms",
+  "carpet.rule.bonemealSporeBlossom.desc": "When enabled, using Bone Meal on a Spore Blossom will generate new Spore Blossoms on nearby ceilings.",
+
+  "carpet.rule.torchflowerDropSeeds.name": "Torchflowers Drop Seeds",
+  "carpet.rule.torchflowerDropSeeds.desc": "Breaking a Torchflower will additionally drop 1-4 Torchflower Seeds.",
+
+  "carpet.rule.axeOxidizeCopper.name": "Axe Oxidizes Copper",
+  "carpet.rule.axeOxidizeCopper.desc": "Shift + Right-clicking a copper block with an Axe will advance its oxidation state to the next stage, acting as the exact opposite of scraping."
+}
