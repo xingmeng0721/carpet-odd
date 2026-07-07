@@ -45,7 +45,7 @@ public abstract class TorchflowerDropSeedsMixin {
                 pos,
                 new ItemStack(
                         Items.TORCHFLOWER_SEEDS,
-                        level.random.nextInt(3) + 1
+                        level.getRandom ().nextInt (3) + 1
                 )
         );
     }
