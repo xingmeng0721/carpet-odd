@@ -5,7 +5,7 @@
   "carpet.rule.autoDrop.desc": "启用 /player <name> autodrop和仙人掌左键假人触发, 扫描假人背包中的潜影盒, 盒内只有单一物品时扔出",
 
   "carpet.rule.bonemealSporeBlossom.name": "骨粉催熟孢子花",
-  "carpet.rule.bonemealSporeBlossom.desc": "启用后对孢子花使用骨粉会在附近天花板生成新的孢子花",
+  "carpet.rule.bonemealSporeBlossom.desc": "启用后对孢子花使用骨粉会生成新的孢子花",
 
   "carpet.rule.torchflowerDropSeeds.name": "火把花掉落种子",
   "carpet.rule.torchflowerDropSeeds.desc": "破坏火把花时额外掉落1-3火把花种子",

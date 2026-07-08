@@ -5,9 +5,9 @@
   "compatibilityLevel": "{{COMPATIBILITY_LEVEL}}",
   "mixins": [
     "autoDrop.CactusAutoDropMixin",
-    "bonemealSporeBlossom.SporeBlossomBonemealMixin",
-    "TorchflowerDropSeedsMixin.TorchflowerDropSeedsMixin",
-    "axeOxidizeCopper.AxeOxidizeCopperMixin"
+    "bonemealSporeBlossom.BoneMealItemMixin",
+    "axeOxidizeCopper.AxeOxidizeCopperMixin",
+    "TorchflowerDropSeedsMixin.TorchflowerDropSeedsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

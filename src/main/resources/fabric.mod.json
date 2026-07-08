@@ -13,7 +13,7 @@
   },
   "mixins": ["carpet-odd.mixins.json"],
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": ">=0.18.4",
     "minecraft": "${minecraft_dependency}",
     "fabric-api": "*",
     "carpet": "*"

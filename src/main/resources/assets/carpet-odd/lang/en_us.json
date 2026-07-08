@@ -5,7 +5,7 @@
   "carpet.rule.autoDrop.desc": "Enables the '/player <name> autodrop' command and allows triggering it by left-clicking a fake player with a cactus. Scans the fake player's inventory and throws out any Shulker Boxes that contain only a single type of item.",
 
   "carpet.rule.bonemealSporeBlossom.name": "Bone Meal Spore Blossoms",
-  "carpet.rule.bonemealSporeBlossom.desc": "When enabled, using Bone Meal on a Spore Blossom will generate new Spore Blossoms on nearby ceilings.",
+  "carpet.rule.bonemealSporeBlossom.desc": "When enabled, using Bone Meal on a Spore Blossom will generate new Spore Blossoms",
 
   "carpet.rule.torchflowerDropSeeds.name": "Torchflowers Drop Seeds",
   "carpet.rule.torchflowerDropSeeds.desc": "Breaking a Torchflower will additionally drop 1-4 Torchflower Seeds.",
