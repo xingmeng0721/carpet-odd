@@ -10,8 +10,8 @@
   "carpet.rule.torchflowerDropSeeds.name": "Torchflowers Drop Seeds",
   "carpet.rule.torchflowerDropSeeds.desc": "Breaking a Torchflower will additionally drop 1-4 Torchflower Seeds.",
 
-  "carpet.rule.axeOxidizeCopper.name": "Axe Oxidizes Copper",
-  "carpet.rule.axeOxidizeCopper.desc": "Shift + Right-clicking a copper block with an Axe will advance its oxidation state to the next stage, acting as the exact opposite of scraping.",
+  "carpet.rule.cactusOxidizeCopper.name": "Cactus Oxidizes Copper",
+  "carpet.rule.cactusOxidizeCopper.desc": "Right-clicking a copper block with a Cactus will advance its oxidation state to the next stage without consuming the cactus, acting as the exact opposite of axe scraping.",
 
   "carpet.rule.batchPlayerCommand.name": "Batch Player Command",
   "carpet.rule.batchPlayerCommand.desc": "Enables the '/playerManager batch <prefix> <start> <end> <action>' command for batch spawning, killing, and controlling fake players with Carpet action pack commands.",

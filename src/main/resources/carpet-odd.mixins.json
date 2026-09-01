@@ -6,13 +6,15 @@
   "mixins": [
     "autoDrop.CactusAutoDropMixin",
     "bonemealSporeBlossom.BoneMealItemMixin",
-    "axeOxidizeCopper.AxeOxidizeCopperMixin",
+    "cactusOxidizeCopper.CactusOxidizeCopperMixin",
     "TorchflowerDropSeedsMixin.TorchflowerDropSeedsMixin",
     "customItemMaxStackSize.InventoryMixin",
     "customItemMaxStackSize.ContainerMixin",
     "customItemMaxStackSize.ItemStackMixin",
     "customItemMaxStackSize.SlotMixin",
-    "customItemMaxStackSize.AbstractContainerMenuMixin"
+    "customItemMaxStackSize.AbstractContainerMenuMixin",
+    "customItemMaxStackSize.PlayerDropMixin",
+    "customItemMaxStackSize.LivingEntityDropMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,4 +1,4 @@
-package carpetodd.xm.mixin.axeOxidizeCopper;
+package carpetodd.xm.mixin.cactusOxidizeCopper;
 
 import carpetodd.xm.CarpetOddSettings;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -8,8 +8,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WeatheringCopper;
@@ -22,18 +23,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
-@Mixin(AxeItem.class)
-public abstract class AxeOxidizeCopperMixin {
+@Mixin(BlockItem.class)
+public abstract class CactusOxidizeCopperMixin {
 
     @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
     private void carpetOdd$oxidizeCopper(
             UseOnContext context,
             CallbackInfoReturnable<InteractionResult> cir
     ) {
-        if (!CarpetOddSettings.axeOxidizeCopper) return;
+        if (!CarpetOddSettings.cactusOxidizeCopper) return;
+
+        ItemStack tool = context.getItemInHand();
+        if (!tool.is(Items.CACTUS)) return;
 
         Player player = context.getPlayer();
-        if (player == null || !player.isShiftKeyDown()) return;
+        if (player == null) return;
 
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
@@ -43,13 +47,6 @@ public abstract class AxeOxidizeCopperMixin {
 
         Optional<BlockState> next = copper.getNext(state);
 
-        // 已经完全氧化，阻止原版继续执行（否则会变成刮铜）
-        if (next.isEmpty()) {
-            cir.setReturnValue(InteractionResult.SUCCESS);
-            return;
-        }
-
-        ItemStack tool = context.getItemInHand();
         BlockState newState = next.get();
 
         if (player instanceof ServerPlayer serverPlayer) {
@@ -62,12 +59,6 @@ public abstract class AxeOxidizeCopperMixin {
                 GameEvent.BLOCK_CHANGE,
                 pos,
                 GameEvent.Context.of(player, newState)
-        );
-
-        tool.hurtAndBreak(
-                1,
-                player,
-                context.getHand().asEquipmentSlot()
         );
 
         level.playSound(

@@ -18,7 +18,7 @@ public class CarpetOddSettings {
     public static boolean torchflowerDropSeeds = false;
 
     @Rule(categories = {ODD})
-    public static boolean axeOxidizeCopper = false;
+    public static boolean cactusOxidizeCopper = false;
 
     @Rule(categories = {ODD})
     public static boolean batchPlayerCommand = false;
