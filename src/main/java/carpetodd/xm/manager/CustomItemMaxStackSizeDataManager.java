@@ -70,7 +70,11 @@ public final class CustomItemMaxStackSizeDataManager {
         }
         ItemContainerContents contents = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
         int slots = 0;
+        //#if MC >= 26_01_00
+        //$$ for (ItemStack item : contents.nonEmptyItemCopyStream().toList()) {
+        //#else
         for (ItemStack item : contents.nonEmptyItems()) {
+        //#endif
             // A full slot uses the item's vanilla stack limit: 1 for minecarts, 16 for pearls, 64 for sand, etc.
             if (item.getCount() != item.getMaxStackSize()) return false;
             slots++;
