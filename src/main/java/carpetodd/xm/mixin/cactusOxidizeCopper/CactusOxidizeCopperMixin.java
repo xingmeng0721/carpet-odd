@@ -1,7 +1,11 @@
 package carpetodd.xm.mixin.cactusOxidizeCopper;
 
 import carpetodd.xm.CarpetOddSettings;
+//#if MC >= 26_02_00
+//$$ import net.minecraft.advancements.triggers.CriteriaTriggers;
+//#else
 import net.minecraft.advancements.CriteriaTriggers;
+//#endif
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
