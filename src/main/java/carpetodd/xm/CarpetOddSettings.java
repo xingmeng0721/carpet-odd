@@ -19,4 +19,10 @@ public class CarpetOddSettings {
 
     @Rule(categories = {ODD})
     public static boolean axeOxidizeCopper = false;
+
+    @Rule(categories = {ODD})
+    public static boolean batchPlayerCommand = false;
+
+    @Rule(categories = {ODD})
+    public static boolean playerInventoryStack = false;
 }

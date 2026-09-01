@@ -11,5 +11,18 @@
   "carpet.rule.torchflowerDropSeeds.desc": "破坏火把花时额外掉落1-3火把花种子",
 
   "carpet.rule.axeOxidizeCopper.name": "斧头氧化铜",
-  "carpet.rule.axeOxidizeCopper.desc": "用斧头潜行右键点击铜制品会使其氧化到下一个阶段, 与右键除锈相反"
+  "carpet.rule.axeOxidizeCopper.desc": "用斧头潜行右键点击铜制品会使其氧化到下一个阶段, 与右键除锈相反",
+
+  "carpet.rule.batchPlayerCommand.name": "批量假人命令",
+  "carpet.rule.batchPlayerCommand.desc": "启用 /playerManager batch <前缀> <起始> <结束> <操作> 命令, 支持批量生成、杀死和使用地毯动作包控制假人",
+
+  "carpet.rule.playerInventoryStack.name": "玩家背包自定义堆叠",
+  "carpet.rule.playerInventoryStack.desc": "允许使用 /playerInventoryStack 自定义玩家背包内物品的最大堆叠数量, 地面掉落物和其他容器保持原版行为",
+  "carpetodd.command.playerInventoryStack.set": "已设置背包堆叠规则: %s = %s",
+  "carpetodd.command.playerInventoryStack.removed": "已移除背包堆叠规则: %s",
+  "carpetodd.command.playerInventoryStack.not_found": "未找到背包堆叠规则: %s",
+  "carpetodd.command.playerInventoryStack.cleared": "已清除所有背包堆叠规则",
+  "carpetodd.command.playerInventoryStack.empty": "当前没有背包堆叠规则",
+  "carpetodd.command.playerInventoryStack.invalid": "无效的物品谓词: %s",
+  "carpetodd.command.playerInventoryStack.filled_shulker_box": "已满潜影盒: 27个槽位均达到各自物品原版最大堆叠数量的潜影盒"
 }

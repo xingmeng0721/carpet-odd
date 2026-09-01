@@ -7,7 +7,12 @@
     "autoDrop.CactusAutoDropMixin",
     "bonemealSporeBlossom.BoneMealItemMixin",
     "axeOxidizeCopper.AxeOxidizeCopperMixin",
-    "TorchflowerDropSeedsMixin.TorchflowerDropSeedsMixin"
+    "TorchflowerDropSeedsMixin.TorchflowerDropSeedsMixin",
+    "customItemMaxStackSize.InventoryMixin",
+    "customItemMaxStackSize.ContainerMixin",
+    "customItemMaxStackSize.ItemStackMixin",
+    "customItemMaxStackSize.SlotMixin",
+    "customItemMaxStackSize.AbstractContainerMenuMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -12,7 +12,7 @@ public class CarpetOddMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        CarpetServer.manageExtension(CarpetOddExtension.getInstance());
+        CarpetOddExtension.init();
         LOGGER.info("Carpet Odd Addition loaded");
     }
 }
