@@ -1,0 +1,21 @@
+# 日常开发构建：推送到 master、提交 PR 或手动触发时只构建并上传产物，不发布 Release
+name: Dev Builds
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      target_subproject:
+        description: 要构建的 MC 版本子项目名（如 1.21.10），留空则构建全部
+        type: string
+        required: false
+        default: ''
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      target_subproject: ${{ inputs.target_subproject }}

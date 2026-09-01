@@ -10,7 +10,6 @@
     "TorchflowerDropSeedsMixin.TorchflowerDropSeedsMixin",
     "customItemMaxStackSize.InventoryMixin",
     "customItemMaxStackSize.ContainerMixin",
-    "customItemMaxStackSize.ItemStackMixin",
     "customItemMaxStackSize.SlotMixin",
     "customItemMaxStackSize.AbstractContainerMenuMixin",
     "customItemMaxStackSize.PlayerDropMixin",

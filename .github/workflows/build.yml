@@ -1,0 +1,55 @@
+# 可复用的构建步骤，由 dev_builds.yml 和 gradle-publish.yml 调用，不单独触发
+name: step.build
+
+on:
+  workflow_call:
+    inputs:
+      target_subproject:
+        description: 要构建的 MC 版本子项目名（如 1.21.10），留空则构建全部
+        type: string
+        required: false
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Cache gradle files
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle.properties', 'settings.json') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Get subproject name to build
+        id: subproject_info
+        run: |
+          if [ -n "${{ inputs.target_subproject }}" ]; then
+            echo "prefix=${{ inputs.target_subproject }}:" >> $GITHUB_OUTPUT
+          else
+            echo "prefix=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build with Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew ${{ steps.subproject_info.outputs.prefix }}build --no-daemon
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: versions/*/build/libs/
+          retention-days: 30

@@ -26,10 +26,10 @@ public abstract class InventoryMixin {
         int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getCustomStackSize(stack);
         if (custom <= 1) return; // Let vanilla handle
 
-        // Custom stacking logic
+
         int remaining = stack.getCount();
 
-        // Try specified slot first
+
         if (slot >= 0 && slot < 36) {
             ItemStack existing = this.getItem(slot);
             if (existing.isEmpty()) {
@@ -44,7 +44,7 @@ public abstract class InventoryMixin {
             }
         }
 
-        // Try selected slot
+
         if (remaining > 0) {
             ItemStack existing = this.getItem(this.selected);
             if (ItemStack.isSameItemSameComponents(stack, existing) && existing.getCount() < custom) {
@@ -54,7 +54,7 @@ public abstract class InventoryMixin {
             }
         }
 
-        // Try all slots
+
         if (remaining > 0) {
             for (int i = 0; i < 36; i++) {
                 ItemStack existing = this.getItem(i);

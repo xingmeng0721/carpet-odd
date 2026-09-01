@@ -51,11 +51,7 @@ public class AutoThrowService {
             return 0;
         }
         Set<Item> uniqueTypes = new HashSet<>();
-        //#if MC >= 26_01_00
-        //$$ contents.nonEmptyItemCopyStream().forEach(item -> uniqueTypes.add(item.getItem()));
-        //#else
         contents.nonEmptyStream().forEach(item -> uniqueTypes.add(item.getItem()));
-        //#endif
         return uniqueTypes.size();
     }
 
