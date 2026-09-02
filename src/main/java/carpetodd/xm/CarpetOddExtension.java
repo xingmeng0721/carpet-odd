@@ -5,6 +5,7 @@ import carpet.CarpetServer;
 import carpetodd.xm.command.AutoDropCommand;
 import carpetodd.xm.command.BatchPlayerCommand;
 import carpetodd.xm.command.CustomItemMaxStackSizeCommand;
+import carpetodd.xm.manager.CustomItemMaxStackSizeDataManager;
 import carpet.helpers.EntityPlayerActionPack.ActionType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -46,6 +47,8 @@ public class CarpetOddExtension implements CarpetExtension {
     @Override
     public void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher,
                                  CommandBuildContext commandBuildContext) {
+        // Earliest point with a CommandBuildContext available to re-parse persisted item predicates
+        CustomItemMaxStackSizeDataManager.INSTANCE.load(commandBuildContext);
         CustomItemMaxStackSizeCommand.register(dispatcher, commandBuildContext);
         dispatcher.register(
                 Commands.literal("player")
