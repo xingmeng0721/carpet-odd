@@ -1,0 +1,2 @@
+# Map source symbols between 1.21.1 and 1.21.3.
+# Add lines below when the mappings differ, following the preprocess documentation.
