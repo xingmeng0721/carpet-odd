@@ -1,6 +1,7 @@
 package carpetodd.xm;
 
 import carpet.CarpetServer;
+import carpetodd.xm.network.OddNetwork;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ public class CarpetOddMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        OddNetwork.register();
+        OddNetwork.registerServerHooks();
         CarpetOddExtension.init();
         LOGGER.info("Carpet Odd Addition loaded");
     }

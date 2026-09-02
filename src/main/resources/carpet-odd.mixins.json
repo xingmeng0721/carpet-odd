@@ -8,12 +8,17 @@
     "bonemealSporeBlossom.BoneMealItemMixin",
     "cactusOxidizeCopper.CactusOxidizeCopperMixin",
     "TorchflowerDropSeedsMixin.TorchflowerDropSeedsMixin",
+    "carpet.SettingsManagerMixin",
     "customItemMaxStackSize.InventoryMixin",
     "customItemMaxStackSize.ContainerMixin",
     "customItemMaxStackSize.SlotMixin",
     "customItemMaxStackSize.AbstractContainerMenuMixin",
     "customItemMaxStackSize.PlayerDropMixin",
     "customItemMaxStackSize.LivingEntityDropMixin"
+  ],
+  "client": [
+    "client.ItemStackMaxStackSizeMixin",
+    "client.ItemInstanceMaxStackSizeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

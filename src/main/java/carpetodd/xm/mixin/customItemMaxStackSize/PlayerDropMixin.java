@@ -20,12 +20,13 @@ public abstract class PlayerDropMixin {
     private ItemEntity carpetOdd$splitAndDrop(ItemStack stack, boolean throwRandomly) {
         Player player = (Player) (Object) this;
         int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getCustomStackSize(stack);
-        
-        if (custom <= 1 || stack.getCount() <= stack.getMaxStackSize()) {
+        // Item's own limit, not stack.getMaxStackSize(): that now returns the custom value on both sides
+        int vanillaMax = stack.getItem().getDefaultMaxStackSize();
+
+        if (custom <= 1 || stack.getCount() <= vanillaMax) {
             return null;
         }
-        
-        int vanillaMax = stack.getMaxStackSize();
+
         ItemEntity firstEntity = null;
         
         while (stack.getCount() > vanillaMax) {
@@ -54,12 +55,11 @@ public abstract class PlayerDropMixin {
     private ItemEntity carpetOdd$splitAndDrop(ItemStack stack, boolean throwRandomly, boolean retainOwnership) {
         Player player = (Player) (Object) this;
         int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getCustomStackSize(stack);
-        
-        if (custom <= 1 || stack.getCount() <= stack.getMaxStackSize()) {
+        int vanillaMax = stack.getItem().getDefaultMaxStackSize();
+
+        if (custom <= 1 || stack.getCount() <= vanillaMax) {
             return null;
         }
-        
-        int vanillaMax = stack.getMaxStackSize();
         ItemEntity firstEntity = null;
         
         while (stack.getCount() > vanillaMax) {

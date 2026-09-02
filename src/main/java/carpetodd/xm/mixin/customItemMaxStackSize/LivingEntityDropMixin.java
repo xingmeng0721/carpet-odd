@@ -20,13 +20,14 @@ public abstract class LivingEntityDropMixin {
     private void onLivingEntityDrop(ItemStack stack, boolean throwRandomly, boolean retainOwnership, 
                                     CallbackInfoReturnable<ItemEntity> cir) {
         int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getCustomStackSize(stack);
-        
-        if (custom <= 1 || stack.getCount() <= stack.getMaxStackSize()) {
+        // Item's own limit, not stack.getMaxStackSize(): that now returns the custom value on both sides
+        int vanillaMax = stack.getItem().getDefaultMaxStackSize();
+
+        if (custom <= 1 || stack.getCount() <= vanillaMax) {
             return;
         }
-        
+
         LivingEntity entity = (LivingEntity) (Object) this;
-        int vanillaMax = stack.getMaxStackSize();
         ItemEntity firstEntity = null;
         
         while (stack.getCount() > vanillaMax) {

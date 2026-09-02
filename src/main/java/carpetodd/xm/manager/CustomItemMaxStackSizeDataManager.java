@@ -2,6 +2,7 @@ package carpetodd.xm.manager;
 
 import carpetodd.xm.CarpetOddMod;
 import carpetodd.xm.CarpetOddSettings;
+import carpetodd.xm.network.OddNetwork;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -41,6 +42,21 @@ public final class CustomItemMaxStackSizeDataManager {
     private final Map<String, Integer> configuredStacks = new LinkedHashMap<>();
     private final List<StackRule> runtimeRules = new ArrayList<>();
 
+    /** Client-side only: rules synced from the server; drives the ItemStack.getMaxStackSize mixin. */
+    private volatile boolean clientRulesActive = false;
+    private final List<StackRule> clientRules = new ArrayList<>();
+
+    /**
+     * Client-side only: whether the player is currently viewing their own inventory (no container GUI open).
+     * The ItemStack.getMaxStackSize override is global and ItemStack can't tell which container it sits in,
+     * so we gate it to the inventory screen; otherwise chests/other containers would wrongly stack too.
+     */
+    private volatile java.util.function.BooleanSupplier clientInventoryView = () -> false;
+
+    public void setClientInventoryView(java.util.function.BooleanSupplier supplier) {
+        this.clientInventoryView = supplier;
+    }
+
     private CustomItemMaxStackSizeDataManager() {}
 
     public void set(String pattern, int count, CommandBuildContext context) throws CommandSyntaxException {
@@ -49,6 +65,7 @@ public final class CustomItemMaxStackSizeDataManager {
         runtimeRules.removeIf(existing -> existing.pattern.equals(pattern));
         runtimeRules.add(rule);
         save();
+        OddNetwork.broadcast();
     }
 
     public void setFilledShulkerBox(int count) {
@@ -56,12 +73,16 @@ public final class CustomItemMaxStackSizeDataManager {
         runtimeRules.removeIf(rule -> rule.pattern.equals(FILLED_SHULKER_BOX));
         runtimeRules.add(new StackRule(FILLED_SHULKER_BOX, CustomItemMaxStackSizeDataManager::isFilledShulkerBox, count));
         save();
+        OddNetwork.broadcast();
     }
 
     public boolean remove(String pattern) {
         boolean removed = configuredStacks.remove(pattern) != null;
         runtimeRules.removeIf(rule -> rule.pattern.equals(pattern));
-        if (removed) save();
+        if (removed) {
+            save();
+            OddNetwork.broadcast();
+        }
         return removed;
     }
 
@@ -69,6 +90,7 @@ public final class CustomItemMaxStackSizeDataManager {
         configuredStacks.clear();
         runtimeRules.clear();
         save();
+        OddNetwork.broadcast();
     }
 
     public Map<String, Integer> getCurrentData() {
@@ -81,6 +103,38 @@ public final class CustomItemMaxStackSizeDataManager {
             if (rule.predicate.test(stack)) return rule.size;
         }
         return -1;
+    }
+
+    /**
+     * Client-side lookup used by the {@code ItemStack.getMaxStackSize} mixin so that client sorting
+     * mods (IPN) see the custom limit. Independent of the server-side {@link CarpetOddSettings} value;
+     * activation is driven by the synced {@code enabled} flag instead.
+     */
+    public int getClientCustomStackSize(ItemStack stack) {
+        if (!clientRulesActive || !clientInventoryView.getAsBoolean()) return -1;
+        for (StackRule rule : clientRules) {
+            if (rule.predicate.test(stack)) return rule.size;
+        }
+        return -1;
+    }
+
+    /** Client-side: rebuilds synced rules. {@code context} is supplied by the caller to avoid a Minecraft-class dependency here. */
+    public void applyClientRules(boolean enabled, Map<String, Integer> data, CommandBuildContext context) {
+        clientRulesActive = enabled;
+        List<StackRule> rebuilt = new ArrayList<>();
+        if (enabled) {
+            for (Map.Entry<String, Integer> entry : data.entrySet()) {
+                Integer count = entry.getValue();
+                if (count == null || count < MIN_COUNT || count > MAX_COUNT) continue;
+                try {
+                    rebuilt.add(buildRule(entry.getKey(), count, context));
+                } catch (Exception exception) {
+                    CarpetOddMod.LOGGER.warn("Failed to parse synced player inventory stack rule '{}'", entry.getKey());
+                }
+            }
+        }
+        clientRules.clear();
+        clientRules.addAll(rebuilt);
     }
 
     /**

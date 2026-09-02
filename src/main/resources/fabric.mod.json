@@ -9,7 +9,8 @@
   "license": "MIT",
   "environment": "*",
   "entrypoints": {
-    "main": ["carpetodd.xm.CarpetOddMod"]
+    "main": ["carpetodd.xm.CarpetOddMod"],
+    "client": ["carpetodd.xm.client.CarpetOddClient"]
   },
   "mixins": ["carpet-odd.mixins.json"],
   "depends": {
