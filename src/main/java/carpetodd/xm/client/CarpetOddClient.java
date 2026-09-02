@@ -16,9 +16,15 @@ public final class CarpetOddClient implements ClientModInitializer {
         // - Not on other threads: in single-player/LAN the integrated server shares this JVM, so the
         //   mixin also fires on server threads (ground ItemEntity merging, entity logic) otherwise.
         // - Not with no screen: walking around must keep vanilla stacking for world entities.
-        CustomItemMaxStackSizeDataManager.INSTANCE.setClientInventoryView(
-                () -> Minecraft.getInstance().isSameThread()
-                        && Minecraft.getInstance().screen instanceof InventoryScreen);
+        CustomItemMaxStackSizeDataManager.INSTANCE.setClientInventoryView(() -> {
+            Minecraft mc = Minecraft.getInstance();
+            if (!mc.isSameThread()) return false;
+            //#if MC >= 26_02_00
+            //$$ return mc.gui.screen() instanceof InventoryScreen;
+            //#else
+            return mc.screen instanceof InventoryScreen;
+            //#endif
+        });
 
         // Payload type registration happens in CarpetOddMod.onInitialize on both sides.
         ClientPlayNetworking.registerGlobalReceiver(SyncCustomStackSizePayload.TYPE, (payload, context) ->
