@@ -1,7 +1,11 @@
 package carpetodd.xm.mixin.customItemMaxStackSize;
 
 import carpetodd.xm.manager.CustomItemMaxStackSizeDataManager;
+//#if MC < 1_21_05
+//$$ import net.minecraft.world.entity.player.Player;
+//#else
 import net.minecraft.world.entity.LivingEntity;
+//#endif
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,11 +13,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+//#if MC < 1_21_05
+//$$ @Mixin(Player.class)
+//#else
 @Mixin(LivingEntity.class)
+//#endif
 public abstract class LivingEntityDropMixin {
-    
+
     /**
-     * 拦截 LivingEntity.drop(ItemStack, boolean, boolean) - 死亡掉落用
+     * 拦截 drop(ItemStack, boolean, boolean) - 死亡掉落用
+     * 1.21.5+ 该方法在 LivingEntity 上；1.21.1~1.21.4 只在 Player 上
      */
     @Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;",
             at = @At("HEAD"), cancellable = true)
@@ -27,7 +36,11 @@ public abstract class LivingEntityDropMixin {
             return;
         }
 
+        //#if MC < 1_21_05
+        //$$ Player entity = (Player) (Object) this;
+        //#else
         LivingEntity entity = (LivingEntity) (Object) this;
+        //#endif
         ItemEntity firstEntity = null;
         
         while (stack.getCount() > vanillaMax) {

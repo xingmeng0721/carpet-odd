@@ -64,14 +64,15 @@ public abstract class PlayerDropMixin {
         
         while (stack.getCount() > vanillaMax) {
             ItemStack toDrop = stack.split(vanillaMax);
-            ItemEntity entity = ((net.minecraft.world.entity.LivingEntity)(Object)player).drop(toDrop, throwRandomly, retainOwnership);
+            // <1.21.5: Player declares drop(ItemStack,boolean,boolean) itself; >=1.21.5: inherited from LivingEntity
+            ItemEntity entity = player.drop(toDrop, throwRandomly, retainOwnership);
             if (firstEntity == null) {
                 firstEntity = entity;
             }
         }
         
         if (!stack.isEmpty()) {
-            ItemEntity entity = ((net.minecraft.world.entity.LivingEntity)(Object)player).drop(stack.copy(), throwRandomly, retainOwnership);
+            ItemEntity entity = player.drop(stack.copy(), throwRandomly, retainOwnership);
             stack.setCount(0);
             if (firstEntity == null) {
                 firstEntity = entity;
