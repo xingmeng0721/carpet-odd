@@ -14,7 +14,7 @@ public interface ContainerMixin {
     @Inject(method = "getMaxStackSize(Lnet/minecraft/world/item/ItemStack;)I", at = @At("RETURN"), cancellable = true)
     private void customPlayerInventoryStackSize(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         if ((Object) this instanceof Inventory) {
-            int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getCustomStackSize(stack);
+            int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getInventorySlotStackSize(stack);
             if (custom != -1) cir.setReturnValue(custom);
         }
     }

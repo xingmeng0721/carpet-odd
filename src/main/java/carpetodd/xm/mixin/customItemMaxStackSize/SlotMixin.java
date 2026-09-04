@@ -22,7 +22,7 @@ public abstract class SlotMixin {
             at = @At("RETURN"), cancellable = true)
     private void customSlotStackSize(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         if (this.container instanceof Inventory) {
-            int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getCustomStackSize(stack);
+            int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getInventorySlotStackSize(stack);
             if (custom > 1) {
                 cir.setReturnValue(custom);
             }
@@ -34,7 +34,7 @@ public abstract class SlotMixin {
     private void customSafeInsert(ItemStack stack, int count, CallbackInfoReturnable<ItemStack> cir) {
         if (!(this.container instanceof Inventory)) return;
         
-        int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getCustomStackSize(stack);
+        int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getInventorySlotStackSize(stack);
         if (custom <= 1) return;
 
         ItemStack existing = this.getItem();

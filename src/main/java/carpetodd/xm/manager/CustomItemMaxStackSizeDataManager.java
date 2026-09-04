@@ -106,6 +106,31 @@ public final class CustomItemMaxStackSizeDataManager {
     }
 
     /**
+     * Slot-scoped lookup used by the {@code Slot} / {@code Container} / {@code AbstractContainerMenu} mixins.
+     * Unlike {@link #getClientCustomStackSize(ItemStack)} it is deliberately NOT gated on the open screen,
+     * because callers already restrict the override to player-inventory containers.
+     *
+     * <p>The screen gate has to stay off here: quick-move (shift-click, and itemscroller's "move everything")
+     * is predicted locally on the client through {@code moveItemStackTo}, which reads the slot limit. If the
+     * client predicted with the vanilla limit while the server settled with the custom one, the two disagree
+     * on the slot contents, the container state id desyncs, and every click after the first is dropped --
+     * which is what made "move everything" only ever fill a single inventory slot.
+     */
+    public int getInventorySlotStackSize(ItemStack stack) {
+        if (CarpetOddSettings.playerInventoryStack) {
+            for (StackRule rule : runtimeRules) {
+                if (rule.predicate.test(stack)) return rule.size;
+            }
+        }
+        if (clientRulesActive) {
+            for (StackRule rule : clientRules) {
+                if (rule.predicate.test(stack)) return rule.size;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Client-side lookup used by the {@code ItemStack.getMaxStackSize} mixin so that client sorting
      * mods (IPN) see the custom limit. Independent of the server-side {@link CarpetOddSettings} value;
      * activation is driven by the synced {@code enabled} flag instead.

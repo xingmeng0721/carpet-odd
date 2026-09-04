@@ -102,7 +102,7 @@ processResources {
 	}
 }
 
-int javaMajorVersion = JAVA_COMPATIBILITY.ordinal() + 1
+int javaMajorVersion = JAVA_COMPATIBILITY.majorVersion.toInteger()
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
@@ -110,6 +110,9 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(javaMajorVersion)
+	}
 	sourceCompatibility = JAVA_COMPATIBILITY
 	targetCompatibility = JAVA_COMPATIBILITY
 	withSourcesJar()
