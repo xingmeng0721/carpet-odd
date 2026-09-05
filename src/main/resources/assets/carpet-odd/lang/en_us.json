@@ -1,28 +1,30 @@
+```json
 {
-  "carpet.category.odd": "Odd",
+"carpet.category.odd": "Odd",
 
-  "carpet.rule.autoDrop.name": "Fake Player Auto Drop Pure Shulker Boxes",
-  "carpet.rule.autoDrop.desc": "Enables the '/player <name> autodrop' command and allows triggering it by left-clicking a fake player with a cactus. Scans the fake player's inventory and throws out any Shulker Boxes that contain only a single type of item.",
+"carpet.rule.autoDrop.name": "Dummy Player Shulker Box Drop",
+"carpet.rule.autoDrop.desc": "Enables /player <name> autodrop and cactus left-click triggers. Scans dummy player inventories for shulker boxes and drops boxes containing only a single type of item.",
 
-  "carpet.rule.bonemealSporeBlossom.name": "Bone Meal Spore Blossoms",
-  "carpet.rule.bonemealSporeBlossom.desc": "When enabled, using Bone Meal on a Spore Blossom will generate new Spore Blossoms",
+"carpet.rule.bonemealSporeBlossom.name": "Bonemeal Spore Blossom",
+"carpet.rule.bonemealSporeBlossom.desc": "Using bonemeal on a spore blossom generates new spore blossoms.",
 
-  "carpet.rule.torchflowerDropSeeds.name": "Torchflowers Drop Seeds",
-  "carpet.rule.torchflowerDropSeeds.desc": "Breaking a Torchflower will additionally drop 1-4 Torchflower Seeds.",
+"carpet.rule.torchflowerDropSeeds.name": "Torchflower Seed Drops",
+"carpet.rule.torchflowerDropSeeds.desc": "Breaking a torchflower additionally drops 1–3 torchflower seeds.",
 
-  "carpet.rule.cactusOxidizeCopper.name": "Cactus Oxidizes Copper",
-  "carpet.rule.cactusOxidizeCopper.desc": "Right-clicking a copper block with a Cactus will advance its oxidation state to the next stage without consuming the cactus, acting as the exact opposite of axe scraping.",
+"carpet.rule.cactusOxidizeCopper.name": "Cactus Oxidizes Copper",
+"carpet.rule.cactusOxidizeCopper.desc": "Right-clicking a copper block with a cactus advances it to the next oxidation stage.",
 
-  "carpet.rule.batchPlayerCommand.name": "Batch Player Command",
-  "carpet.rule.batchPlayerCommand.desc": "Enables the '/playerManager batch <prefix> <start> <end> <action>' command for batch spawning, killing, and controlling fake players with Carpet action pack commands.",
+"carpet.rule.batchPlayerCommand.name": "Batch Player Command",
+"carpet.rule.batchPlayerCommand.desc": "Enables the /playerManager batch <prefix> <start> <end> <action> command for batch spawning, killing, and controlling dummy players with Carpet action packs.",
 
-  "carpet.rule.playerInventoryStack.name": "Custom Player Inventory Stack Size",
-  "carpet.rule.playerInventoryStack.desc": "Allows /playerInventoryStack to customize item stack sizes in player inventories only; dropped items and other containers keep vanilla behavior",
-  "carpetodd.command.playerInventoryStack.set": "Set player inventory stack rule: %s = %s",
-  "carpetodd.command.playerInventoryStack.removed": "Removed player inventory stack rule: %s",
-  "carpetodd.command.playerInventoryStack.not_found": "Player inventory stack rule not found: %s",
-  "carpetodd.command.playerInventoryStack.cleared": "Cleared all player inventory stack rules",
-  "carpetodd.command.playerInventoryStack.empty": "There are no player inventory stack rules",
-  "carpetodd.command.playerInventoryStack.invalid": "Invalid item predicate: %s",
-  "carpetodd.command.playerInventoryStack.filled_shulker_box": "Filled shulker box: all 27 slots contain their items at the vanilla maximum stack size"
+"carpet.rule.playerInventoryStack.name": "Custom Player Inventory Stack Size",
+"carpet.rule.playerInventoryStack.desc": "Allows /playerInventoryStack to customize the maximum stack size of items in player inventories. Dropped items and other containers retain vanilla behavior.",
+"carpetodd.command.playerInventoryStack.set": "Set inventory stack rule: %s = %s",
+"carpetodd.command.playerInventoryStack.removed": "Removed inventory stack rule: %s",
+"carpetodd.command.playerInventoryStack.not_found": "Inventory stack rule not found: %s",
+"carpetodd.command.playerInventoryStack.cleared": "Cleared all inventory stack rules",
+"carpetodd.command.playerInventoryStack.empty": "No inventory stack rules are currently set",
+"carpetodd.command.playerInventoryStack.invalid": "Invalid item predicate: %s",
+"carpetodd.command.playerInventoryStack.filled_shulker_box": "Filled Shulker Box: a shulker box where all 27 slots are filled to the vanilla maximum stack size of their respective items"
 }
+```
