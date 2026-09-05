@@ -2,7 +2,6 @@ package carpetodd.xm.mixin.customItemMaxStackSize;
 
 import carpetodd.xm.manager.CustomItemMaxStackSizeDataManager;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
@@ -21,7 +20,7 @@ public abstract class SlotMixin {
     @Inject(method = "getMaxStackSize(Lnet/minecraft/world/item/ItemStack;)I", 
             at = @At("RETURN"), cancellable = true)
     private void customSlotStackSize(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
-        if (this.container instanceof Inventory) {
+        if (CustomItemMaxStackSizeDataManager.INSTANCE.isPlayerStorageSlot(this.container, ((Slot) (Object) this).getContainerSlot())) {
             int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getInventorySlotStackSize(stack);
             if (custom > 1) {
                 cir.setReturnValue(custom);
@@ -32,7 +31,7 @@ public abstract class SlotMixin {
     @Inject(method = "safeInsert(Lnet/minecraft/world/item/ItemStack;I)Lnet/minecraft/world/item/ItemStack;",
             at = @At("HEAD"), cancellable = true)
     private void customSafeInsert(ItemStack stack, int count, CallbackInfoReturnable<ItemStack> cir) {
-        if (!(this.container instanceof Inventory)) return;
+        if (!CustomItemMaxStackSizeDataManager.INSTANCE.isPlayerStorageSlot(this.container, ((Slot) (Object) this).getContainerSlot())) return;
         
         int custom = CustomItemMaxStackSizeDataManager.INSTANCE.getInventorySlotStackSize(stack);
         if (custom <= 1) return;

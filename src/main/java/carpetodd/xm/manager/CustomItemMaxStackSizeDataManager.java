@@ -11,6 +11,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.arguments.item.ItemPredicateArgument;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.PlayerEnderChestContainer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.BlockItem;
@@ -103,6 +106,33 @@ public final class CustomItemMaxStackSizeDataManager {
             if (rule.predicate.test(stack)) return rule.size;
         }
         return -1;
+    }
+
+    /**
+     * Third-party container wrappers that expose a player inventory (or ender chest) through a chest GUI.
+     * They are not {@link Inventory} / {@link PlayerEnderChestContainer} instances, so the vanilla type checks
+     * miss them, yet some of their slots write straight into the player's real storage. Matched by exact class
+     * name (soft dependency, no compile-time reference); the predicate decides which container slots are real
+     * storage - the rest are GUI buttons or placeholder panes and must keep the vanilla limit.
+     */
+    private static final Map<String, java.util.function.IntPredicate> PLAYER_VIEW_WRAPPERS = Map.of(
+            // GCA fake player inventory: buttons at 0,5,6,8,9-17; real slots are 1-4 (armor),
+            // 7 (offhand), 18-44 (storage), 45-53 (hotbar)
+            "dev.dubhe.gugle.carpet.tools.player.PlayerInventoryContainer",
+            slot -> (slot >= 1 && slot <= 4) || slot == 7 || slot >= 18,
+            // GCA fake player ender chest: 0-26 are buttons, 27-53 are the real ender chest slots
+            "dev.dubhe.gugle.carpet.tools.player.PlayerEnderChestContainer", slot -> slot >= 27);
+
+    /**
+     * Whether {@code containerSlot} of {@code container} is a real player-inventory or ender-chest slot,
+     * either vanilla (the player's own {@code Inventory}, a {@code PlayerEnderChestContainer}) or surfaced
+     * by another mod (fake player inventory / ender chest GUIs from GCA or Carpet-Org).
+     */
+    public boolean isPlayerStorageSlot(Container container, int containerSlot) {
+        if (container instanceof Inventory || container instanceof PlayerEnderChestContainer) return true;
+        java.util.function.IntPredicate realSlots =
+                PLAYER_VIEW_WRAPPERS.get(container.getClass().getName());
+        return realSlots != null && containerSlot >= 0 && realSlots.test(containerSlot);
     }
 
     /**
