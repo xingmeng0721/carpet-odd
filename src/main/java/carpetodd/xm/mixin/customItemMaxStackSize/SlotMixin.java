@@ -40,13 +40,11 @@ public abstract class SlotMixin {
         int toInsert = Math.min(count, stack.getCount());
 
         if (existing.isEmpty()) {
-            // Empty slot - place items
             int placed = Math.min(toInsert, custom);
             this.container.setItem(((Slot)(Object)this).getContainerSlot(), stack.split(placed));
             this.setChanged();
             cir.setReturnValue(stack);
         } else if (ItemStack.isSameItemSameComponents(existing, stack)) {
-            // Merge with existing
             int space = custom - existing.getCount();
             int merged = Math.min(toInsert, space);
             if (merged > 0) {

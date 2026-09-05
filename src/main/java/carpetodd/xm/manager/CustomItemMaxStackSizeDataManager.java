@@ -45,12 +45,10 @@ public final class CustomItemMaxStackSizeDataManager {
     private final Map<String, Integer> configuredStacks = new LinkedHashMap<>();
     private final List<StackRule> runtimeRules = new ArrayList<>();
 
-    /** Client-side only: rules synced from the server; drives the ItemStack.getMaxStackSize mixin. */
     private volatile boolean clientRulesActive = false;
     private final List<StackRule> clientRules = new ArrayList<>();
 
     /**
-     * Client-side only: whether the player is currently viewing their own inventory (no container GUI open).
      * The ItemStack.getMaxStackSize override is global and ItemStack can't tell which container it sits in,
      * so we gate it to the inventory screen; otherwise chests/other containers would wrongly stack too.
      */
@@ -109,15 +107,12 @@ public final class CustomItemMaxStackSizeDataManager {
     }
 
     /**
-     * Third-party container wrappers that expose a player inventory (or ender chest) through a chest GUI.
-     * They are not {@link Inventory} / {@link PlayerEnderChestContainer} instances, so the vanilla type checks
-     * miss them, yet some of their slots write straight into the player's real storage. Matched by exact class
+     * Third-party container wrappers that expose a player inventory (or ender chest) through a chest GUI.Matched by exact class
      * name (soft dependency, no compile-time reference); the predicate decides which container slots are real
-     * storage - the rest are GUI buttons or placeholder panes and must keep the vanilla limit.
+     * storage - the rest are GUI buttons or placeholder panes.
      */
     private static final Map<String, java.util.function.IntPredicate> PLAYER_VIEW_WRAPPERS = Map.of(
-            // GCA fake player inventory: buttons at 0,5,6,8,9-17; real slots are 1-4 (armor),
-            // 7 (offhand), 18-44 (storage), 45-53 (hotbar)
+            // GCA fake player inventory: buttons at 0,5,6,8,9-17; real slots are 1-4 (armor),7 (offhand), 18-44 (storage), 45-53 (hotbar)
             "dev.dubhe.gugle.carpet.tools.player.PlayerInventoryContainer",
             slot -> (slot >= 1 && slot <= 4) || slot == 7 || slot >= 18,
             // GCA fake player ender chest: 0-26 are buttons, 27-53 are the real ender chest slots
@@ -136,15 +131,9 @@ public final class CustomItemMaxStackSizeDataManager {
     }
 
     /**
-     * Slot-scoped lookup used by the {@code Slot} / {@code Container} / {@code AbstractContainerMenu} mixins.
-     * Unlike {@link #getClientCustomStackSize(ItemStack)} it is deliberately NOT gated on the open screen,
-     * because callers already restrict the override to player-inventory containers.
-     *
-     * <p>The screen gate has to stay off here: quick-move (shift-click, and itemscroller's "move everything")
-     * is predicted locally on the client through {@code moveItemStackTo}, which reads the slot limit. If the
-     * client predicted with the vanilla limit while the server settled with the custom one, the two disagree
-     * on the slot contents, the container state id desyncs, and every click after the first is dropped --
-     * which is what made "move everything" only ever fill a single inventory slot.
+     * Returns the custom stack limit for a slot.
+     * Not gated by the open screen because quick-move is client-predicted.
+     * The client and server must use the same limit to avoid container desync.
      */
     public int getInventorySlotStackSize(ItemStack stack) {
         if (CarpetOddSettings.playerInventoryStack) {

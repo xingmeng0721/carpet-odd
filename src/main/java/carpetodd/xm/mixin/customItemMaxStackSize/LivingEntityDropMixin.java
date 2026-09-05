@@ -21,8 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LivingEntityDropMixin {
 
     /**
-     * 拦截 drop(ItemStack, boolean, boolean) - 死亡掉落用
-     * 1.21.5+ 该方法在 LivingEntity 上；1.21.1~1.21.4 只在 Player 上
+     * 拦截 drop(ItemStack, boolean, boolean)
      */
     @Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;",
             at = @At("HEAD"), cancellable = true)

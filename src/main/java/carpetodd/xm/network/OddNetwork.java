@@ -35,7 +35,6 @@ public final class OddNetwork {
 
     public static void sendTo(ServerPlayer player) {
         if (player == null) return;
-        // Vanilla or non-modded clients would be disconnected by an unknown payload
         if (!ServerPlayNetworking.canSend(player, SyncCustomStackSizePayload.TYPE)) return;
         Map<String, Integer> data = CustomItemMaxStackSizeDataManager.INSTANCE.getCurrentData();
         ServerPlayNetworking.send(player,

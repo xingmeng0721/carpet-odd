@@ -10,12 +10,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 //#endif
 
-/**
- * Client-side only: exposes the playerInventoryStack limit through ItemStack.getMaxStackSize(),
- * which is what client sorting mods (Inventory Profiles Next) read when planning a sort.
- * Only applies when the value still equals the item's default, so component-modified limits win.
- * 26.1+ targets ItemInstance instead (see ItemInstanceMaxStackSizeMixin).
- */
 //#if MC >= 26_01_00
 //$$ @Mixin(DummyClass.class)
 //#else

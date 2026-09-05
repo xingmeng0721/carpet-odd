@@ -17,7 +17,7 @@
   "carpet.rule.batchPlayerCommand.desc": "启用 /playerManager batch <前缀> <起始> <结束> <操作> 命令, 支持批量生成、杀死和使用地毯动作包控制假人",
 
   "carpet.rule.playerInventoryStack.name": "玩家背包自定义堆叠",
-  "carpet.rule.playerInventoryStack.desc": "允许使用 /playerInventoryStack 自定义玩家背包内物品的最大堆叠数量, 地面掉落物和其他容器保持原版行为",
+  "carpet.rule.playerInventoryStack.desc": "允许使用 /playerInventoryStack 自定义玩家背包内物品的最大堆叠数量, 地面掉落物和其他容器保持原版",
   "carpetodd.command.playerInventoryStack.set": "已设置背包堆叠规则: %s = %s",
   "carpetodd.command.playerInventoryStack.removed": "已移除背包堆叠规则: %s",
   "carpetodd.command.playerInventoryStack.not_found": "未找到背包堆叠规则: %s",

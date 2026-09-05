@@ -16,7 +16,6 @@ import java.util.Map;
 /**
  * Server-to-client sync of the playerInventoryStack rules (pattern -> custom max size).
  * Clients need the rules so ItemStack.getMaxStackSize() returns the custom limit,
- * which is what client-side sorting mods (e.g. Inventory Profiles Next) read when planning.
  */
 public record SyncCustomStackSizePayload(boolean enabled, Map<String, Integer> customStacks)
         implements CustomPacketPayload {

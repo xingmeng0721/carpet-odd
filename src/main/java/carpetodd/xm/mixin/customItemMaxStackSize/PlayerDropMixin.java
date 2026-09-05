@@ -12,10 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public abstract class PlayerDropMixin {
-    
-    /**
-     * 统一的自定义堆叠物品掉落处理方法（两参数版本）
-     */
+
     @Unique
     private ItemEntity carpetOdd$splitAndDrop(ItemStack stack, boolean throwRandomly) {
         Player player = (Player) (Object) this;
@@ -47,10 +44,7 @@ public abstract class PlayerDropMixin {
         
         return firstEntity;
     }
-    
-    /**
-     * 统一的自定义堆叠物品掉落处理方法（三参数版本，死亡掉落用）
-     */
+
     @Unique
     private ItemEntity carpetOdd$splitAndDrop(ItemStack stack, boolean throwRandomly, boolean retainOwnership) {
         Player player = (Player) (Object) this;
@@ -83,7 +77,7 @@ public abstract class PlayerDropMixin {
     }
     
     /**
-     * 拦截 Player.drop(ItemStack, boolean) - Q键和Ctrl+Q
+     * 拦截 Player.drop(ItemStack, boolean)
      */
     @Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/entity/item/ItemEntity;",
             at = @At("HEAD"), cancellable = true)

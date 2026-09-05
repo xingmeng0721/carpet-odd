@@ -1,68 +1,107 @@
 # Carpet Odd Addition Rules
 
-Tip: Use Ctrl+F to quickly find the rule you want
+> **Tip:** Use `Ctrl + F` to quickly find the rule you are looking for.
 
-All rules belong to the ODD category. Toggle them with `/carpet <rule> <true|false>`.
+All rules belong to the **ODD** category and can be enabled or disabled with:
 
----
-
-## Fake Player Auto-Drop Pure Shulker Boxes (autoDrop)
-Scans a fake player's inventory for shulker boxes (including dyed ones) and throws out any box whose 27 slots contain only a single type of item.
-Triggered by the command `/player <name> autodrop`, or by left-clicking a fake player while holding a cactus.
-
-Type: boolean
-Default: false
-Suggested values: false, true
-Category: ODD
+```text
+/carpet <rule> <true|false>
+```
 
 ---
 
-## Bone Meal Spore Blossoms (bonemealSporeBlossom)
-Applying bone meal to a placed Spore Blossom pops the flower as an item and randomly spawns new Spore Blossoms on suitable ceiling blocks nearby, making the vanilla non-renewable Spore Blossom renewable through automation. Consumes 1 bone meal; not consumed in Creative mode.
+## `autoDrop` — Dummy Player Shulker Box Drop
 
-Type: boolean
-Default: false
-Suggested values: false, true
-Category: ODD
+Scans a dummy player's inventory for shulker boxes, including dyed shulker boxes. If all 27 slots inside a shulker box contain only the same item, the shulker box is dropped from the dummy player's inventory.
 
----
+**Trigger methods:**
 
-## Torchflowers Drop Seeds (torchflowerDropSeeds)
-Breaking a Torchflower additionally drops 1~3 Torchflower Seeds on top of the vanilla drops.
+* `/player <name> autodrop`
+* Left-click the dummy player while holding a cactus
 
-Type: boolean
-Default: false
-Suggested values: false, true
-Category: ODD
+| Property | Value            |
+| -------- | ---------------- |
+| Type     | `boolean`        |
+| Default  | `false`          |
+| Options  | `false` / `true` |
+| Category | `ODD`            |
 
 ---
 
-## Cactus Oxidizes Copper (cactusOxidizeCopper)
-Right-clicking a non-fully-oxidized copper block while holding a Cactus advances its oxidation state to the next stage, acting as the exact opposite of axe scraping. The cactus is not consumed and no durability is used. On fully oxidized blocks, right-click falls back to vanilla behavior (placing the cactus normally).
+## `bonemealSporeBlossom` — Bonemeal Spore Blossom
 
-Type: boolean
-Default: false
-Suggested values: false, true
-Category: ODD
+Using bonemeal on a placed spore blossom drops the spore blossom as an item and randomly generates new spore blossoms on nearby eligible ceiling blocks.
 
----
-
-## Batch Player Command (batchPlayerCommand)
-Enables the `/playerManager batch <prefix> <start> <end> <action>` command for batch spawning (max 256 per batch), killing, and controlling fake players with Carpet action pack commands, with names built as `<prefix>_<index>`. Supported actions include spawn, kill, use, attack, jump, drop, drop_stack, swap_hands, move, sneak, unsneak, sprint, unsprint, look, turn, hotbar, mount, dismount, and stop. The perTick and randomly modes require Carpet TIS Addition.
-
-Type: boolean
-Default: false
-Suggested values: false, true
-Category: ODD
+| Property | Value            |
+| -------- | ---------------- |
+| Type     | `boolean`        |
+| Default  | `false`          |
+| Options  | `false` / `true` |
+| Category | `ODD`            |
 
 ---
 
-## Custom Player Inventory Stack Size (playerInventoryStack)
-Allows using `/playerInventoryStack` to customize the maximum stack size of items inside player inventories only; dropped items and other containers keep vanilla behavior.
-Subcommands: `set <item predicate> <count 1-99>`, `set filled_shulker_box <count 1-99>` (shulker boxes whose every slot is filled to its vanilla max stack size), `remove "<predicate>"`, `list`, `clear`.
-Item predicates support NBT/component matching, e.g. `minecraft:potion[minecraft:potion_contents=potion_type:healing]`.
+## `torchflowerDropSeeds` — Torchflower Seed Drops
 
-Type: boolean
-Default: false
-Suggested values: false, true
-Category: ODD
+When a torchflower is broken, it additionally drops **1–3 torchflower seeds** on top of the normal vanilla drops.
+
+| Property | Value            |
+| -------- | ---------------- |
+| Type     | `boolean`        |
+| Default  | `false`          |
+| Options  | `false` / `true` |
+| Category | `ODD`            |
+
+---
+
+## `cactusOxidizeCopper` — Cactus Oxidizes Copper
+
+Right-click an incompletely oxidized copper block or item while holding a cactus to advance it to the next oxidation stage.
+
+| Property | Value            |
+| -------- | ---------------- |
+| Type     | `boolean`        |
+| Default  | `false`          |
+| Options  | `false` / `true` |
+| Category | `ODD`            |
+
+---
+
+## `batchPlayerCommand` — Batch Player Command
+
+Enables the `/playerManager batch <prefix> <start> <end> <action>` command.
+
+Batch-generates and kills dummy players using the `prefix_number` naming pattern, and controls them using Carpet action packs. A single batch can operate on up to **256 dummy players**.
+
+| Property | Value            |
+| -------- | ---------------- |
+| Type     | `boolean`        |
+| Default  | `false`          |
+| Options  | `false` / `true` |
+| Category | `ODD`            |
+
+---
+
+## `playerInventoryStack` — Custom Player Inventory Stack Size
+
+Allows `/playerInventoryStack` to customize the maximum stack size of items in the player's inventory.
+
+Dropped items and other containers retain their vanilla behavior.
+
+**Subcommands:**
+
+```text
+set <item predicate> <amount 1-99>
+set filled_shulker_box <amount 1-99>
+remove "<predicate>"
+list
+clear
+```
+
+| Property | Value            |
+| -------- | ---------------- |
+| Type     | `boolean`        |
+| Default  | `false`          |
+| Options  | `false` / `true` |
+| Category | `ODD`            |
+|          |                  |

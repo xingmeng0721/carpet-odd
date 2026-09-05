@@ -149,10 +149,6 @@ public class CarpetOddExtension implements CarpetExtension {
         return CarpetOddMod.MOD_ID;
     }
 
-    /**
-     * Adds mode sub-nodes (once, continuous, after, interval, perTick, randomly) as siblings to an action node.
-     * perTick and randomly require Carpet TIS Addition.
-     */
     private static com.mojang.brigadier.builder.ArgumentBuilder<CommandSourceStack, ?> addActionModes(
             com.mojang.brigadier.builder.ArgumentBuilder<CommandSourceStack, ?> actionNode, ActionType type) {
         actionNode

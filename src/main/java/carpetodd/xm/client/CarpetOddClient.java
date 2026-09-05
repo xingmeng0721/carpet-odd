@@ -13,9 +13,6 @@ public final class CarpetOddClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         // Only apply the custom limit on the client render thread while the inventory screen is open.
-        // - Not on other threads: in single-player/LAN the integrated server shares this JVM, so the
-        //   mixin also fires on server threads (ground ItemEntity merging, entity logic) otherwise.
-        // - Not with no screen: walking around must keep vanilla stacking for world entities.
         CustomItemMaxStackSizeDataManager.INSTANCE.setClientInventoryView(() -> {
             Minecraft mc = Minecraft.getInstance();
             if (!mc.isSameThread()) return false;

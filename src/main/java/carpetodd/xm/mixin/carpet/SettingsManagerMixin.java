@@ -9,7 +9,6 @@ import net.minecraft.commands.CommandSourceStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/** Re-syncs playerInventoryStack rules to every client whenever the rule is toggled via /carpet. */
 @Mixin(SettingsManager.class)
 public abstract class SettingsManagerMixin {
 
