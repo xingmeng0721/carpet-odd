@@ -1,4 +1,3 @@
-```json
 {
 "carpet.category.odd": "Odd",
 
@@ -27,4 +26,4 @@
 "carpetodd.command.playerInventoryStack.invalid": "Invalid item predicate: %s",
 "carpetodd.command.playerInventoryStack.filled_shulker_box": "Filled Shulker Box: a shulker box where all 27 slots are filled to the vanilla maximum stack size of their respective items"
 }
-```
+
